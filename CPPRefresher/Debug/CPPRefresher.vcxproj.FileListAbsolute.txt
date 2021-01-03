@@ -1,2 +1,0 @@
-E:\Github Projects\C++ Refresher\CPPRefresher\Debug\CPPRefresher.exe
-E:\Github Projects\C++ Refresher\CPPRefresher\Debug\CPPRefresher.pdb
