@@ -5,6 +5,8 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
+#include <string>
 
 using namespace std;
 
@@ -20,6 +22,13 @@ void CLS()
 #ifdef _WIN32
     system("cls");
 #endif //Todo - Add different platform options for clearing console screens
+}
+
+void WAIT()
+{
+#ifdef _WIN32
+    system("pause");
+#endif
 }
 
 
@@ -76,11 +85,60 @@ void LoginScreen(LoginSystemScreens& inLSS)
 
     cout << "Login using the correct username and password!\n";
 
+    string fUsername = "";
+    string fPassword = "";
+
+    string Username = "";
+    string Password = "";
+
+
+    ifstream file(loginDetailsFile);
+
+    if (file.is_open())
+    {
+        getline(file, fUsername);
+        getline(file, fPassword);
+    }
+
+    file.close();
+
     cout << "Username: ";
 
-    string InputString = "";
+    cin >> Username;
 
-    cin >> InputString;
+    cout << "\n" << "Password: ";
+
+    cin >> Password;
+
+    cout << "\n";
+
+    if (Username != fUsername)
+    {
+        cout << "Username is Incorrect!" << "\n";
+        
+        inLSS = LoginSystemScreens::_Login;
+
+        WAIT();
+
+        return;
+    }
+    
+    if (Password != fPassword)
+    {
+        cout << "Password is Incorrect!" << "\n";
+        
+        inLSS = LoginSystemScreens::_Login;
+       
+        WAIT();
+
+        return;
+    }
+
+    cout << "Login Successful!" << "\n";
+
+    inLSS = LoginSystemScreens::_MainScreen;
+
+    WAIT();
 
     return;
 }
@@ -114,6 +172,8 @@ void RegisterScreen(LoginSystemScreens& inLSS)
     cout << "Registration Successful! \n";
 
     inLSS = LoginSystemScreens::_MainScreen;
+
+    WAIT();
 
     return;
 }
