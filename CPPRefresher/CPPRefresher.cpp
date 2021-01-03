@@ -3,6 +3,11 @@
 * for the console. 
 */
 
+/*
+*   - Todo Add Change Username Option
+*   - Todo Add Change Password Option
+*/
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -12,6 +17,7 @@ using namespace std;
 
 const string loginDetailsFile = "loginDetailsRegistrar.txt";
 
+[[deprecated]]
 bool isDigitFromString(string& stringToCheck)
 {
     return stringToCheck.find_first_not_of("0123456789") == string::npos;
@@ -28,7 +34,7 @@ void WAIT()
 {
 #ifdef _WIN32
     system("pause");
-#endif
+#endif //Todo - Add different platform options for pausing console
 }
 
 
@@ -37,7 +43,6 @@ enum class LoginSystemScreens {
     _Login,
     _Registration
 };
-
 
 void MainScreen(LoginSystemScreens& inLSS)
 {
@@ -77,6 +82,12 @@ void MainScreen(LoginSystemScreens& inLSS)
     return;
 }
 
+
+/*
+*   - Search all usernames and match, then check password is correct. 
+*   - No user found? Redirect to Registration
+*
+*/
 void LoginScreen(LoginSystemScreens& inLSS)
 {
     CLS();
@@ -91,7 +102,6 @@ void LoginScreen(LoginSystemScreens& inLSS)
 
     string Username = "";
     string Password = "";
-
 
     ifstream file(loginDetailsFile);
 
@@ -144,6 +154,13 @@ void LoginScreen(LoginSystemScreens& inLSS)
     return;
 }
 
+
+// Todo - Add Multiple Registrations. Checks to see if valid password and username is available.
+/*
+*   - Encrypt passwords
+*   - Confirm Password Option
+*   - Password Strength (Maybe)
+*/
 void RegisterScreen(LoginSystemScreens& inLSS)
 {
     CLS();
@@ -162,7 +179,7 @@ void RegisterScreen(LoginSystemScreens& inLSS)
 
     cin >> username;
     
-    cout << "\nPassword: ";
+    cout << "\n" << "Password: ";
 
     cin >> password;
 
