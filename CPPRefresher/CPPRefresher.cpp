@@ -1,20 +1,142 @@
-// CPPRefresher.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+* The objective of this project is to create a Registration and login system 
+* for the console. 
+*/
 
 #include <iostream>
+#include <fstream>
+
+using namespace std;
+
+const string loginDetailsFile = "loginDetailsRegistrar.txt";
+
+bool isDigitFromString(string& stringToCheck)
+{
+    return stringToCheck.find_first_not_of("0123456789") == string::npos;
+}
+
+void CLS()
+{
+#ifdef _WIN32
+    system("cls");
+#endif //Todo - Add different platform options for clearing console screens
+}
+
+
+enum class LoginSystemScreens {
+    _MainScreen,
+    _Login,
+    _Registration
+};
+
+
+void MainScreen(LoginSystemScreens& inLSS)
+{
+    CLS();
+
+    if (inLSS != LoginSystemScreens::_MainScreen)
+        return;
+
+    cout << "Login and Registration system by Aaron Thompson\n\n";
+    
+    cout << "Login (1) or Register (2)\n";
+
+    string InputString = "";
+
+    cin >> InputString;
+
+    if (!isDigitFromString(InputString))
+        return;
+
+     
+    if (InputString == "1")
+    {
+        inLSS = LoginSystemScreens::_Login;
+
+        return;
+    }
+    else if (InputString == "2")
+    {
+        inLSS = LoginSystemScreens::_Registration;
+            
+        return;
+    }
+    else
+        return;
+
+    return;
+}
+
+void LoginScreen(LoginSystemScreens& inLSS)
+{
+    CLS();
+
+    if (inLSS != LoginSystemScreens::_Login)
+        return;
+
+    cout << "Login using the correct username and password!\n";
+
+    cout << "Username: ";
+
+    string InputString = "";
+
+    cin >> InputString;
+
+    return;
+}
+
+void RegisterScreen(LoginSystemScreens& inLSS)
+{
+    CLS();
+
+    if (inLSS != LoginSystemScreens::_Registration)
+        return;
+
+    ofstream file(loginDetailsFile);
+
+    cout << "Register with a username and password!\n";
+
+    cout << "Username: ";
+
+    string username = "";
+    string password = "";
+
+    cin >> username;
+    
+    cout << "\nPassword: ";
+
+    cin >> password;
+
+    file << username << "\n" << password;
+
+    file.close();
+
+    cout << "Registration Successful! \n";
+
+    inLSS = LoginSystemScreens::_MainScreen;
+
+    return;
+}
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    string ConsoleInput = "";
+
+    cout << "Login (1) or Register! (2)\n\n";
+
+    LoginSystemScreens Screens = LoginSystemScreens::_MainScreen;
+
+    while (true)
+    {
+        switch (Screens)
+        {
+            case LoginSystemScreens::_MainScreen: MainScreen(Screens);
+
+            case LoginSystemScreens::_Login: LoginScreen(Screens);
+
+            case LoginSystemScreens::_Registration: RegisterScreen(Screens);
+        }
+    }
+
+    return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
