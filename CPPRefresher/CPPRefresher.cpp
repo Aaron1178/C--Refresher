@@ -48,15 +48,11 @@ void MainScreen(LoginSystemScreens& inLSS)
 
     cout << "Login and Registration system by Aaron Thompson\n\n";
     
-    cout << "Login (1) or Register (2)\n";
+    cout << "Login (1) or Register (2) or type Exit to end session! \n";
 
     string InputString = "";
 
     cin >> InputString;
-
-    if (!isDigitFromString(InputString))
-        return;
-
      
     if (InputString == "1")
     {
@@ -64,15 +60,20 @@ void MainScreen(LoginSystemScreens& inLSS)
 
         return;
     }
+
     else if (InputString == "2")
     {
         inLSS = LoginSystemScreens::_Registration;
             
         return;
     }
-    else
-        return;
 
+    else if (InputString == "Exit")
+        exit(0);
+
+    else
+        return; 
+ 
     return;
 }
 
