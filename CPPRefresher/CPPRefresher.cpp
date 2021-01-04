@@ -117,7 +117,7 @@ void ShowLValueReferenceTests_Literals()
     
     //std::cout << "myAssumedAccessViolationLValueReference: " << myAssumedAccessViolationLValueReference << "\n \n";
 
-    std::cout << "----- End Literal Tests -------" << "\n \n;
+    std::cout << "----- End Literal Tests -------" << "\n \n";
 }
 
 void ShowReferenceClassTests()
@@ -151,7 +151,7 @@ int main()
     std::cout << "By Aaron Thompson \n \n";
 
     ShowLValueReferenceTests_Literals();
-    
+ 
     ShowReferenceClassTests();
 
     WaitConsole();
