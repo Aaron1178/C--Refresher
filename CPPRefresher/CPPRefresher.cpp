@@ -31,25 +31,35 @@ public:
     {
         std::cout << "Showing Message from BaseClassExample!" << "\n \n";
     }
+
+    virtual std::string ReturnSlicingString() const
+    {
+        return "Slicing: Called from the BaseClassExample!";
+    }
 };
 
 class DerivedFromBaseClassExample : public BaseClassExample
 {
 public:
-    virtual void ShowMessage()
+    void ShowMessage()
     {
-        std::cout << "Showing Message from DerivedClassExample!" << "\n \n";
+        std::cout << "Showing Message from DerivedFromBaseClassExample!" << "\n \n";
+    }
+
+    virtual std::string ReturnSlicingString() const
+    {
+        return "Slicing: Called from DerivedFromBaseClassExample!";
     }
 };
 
 void SlicingTest_NoReference(BaseClassExample paramBaseClass)
 {
-   paramBaseClass.ShowMessage();
+    std::cout << paramBaseClass.ReturnSlicingString() << "\n \n";
 }
 
-void SlicingTest_Reference(BaseClassExample& paramBaseClass)
+void SlicingTest_Reference(const BaseClassExample& paramBaseClass)
 {
-    paramBaseClass.ShowMessage();
+    std::cout << paramBaseClass.ReturnSlicingString() << "\n \n";
 }
 
 /*
@@ -72,8 +82,15 @@ int& ReturnTemporaryIntLValueReference()
 */
 
 
+void ShowPolymorphismAtRunTime(BaseClassExample& paramBaseClassExample)
+{
+    paramBaseClassExample.ShowMessage();
+}
+
 void ShowLValueReferenceTests_Literals()
 {
+    std::cout << "----- Literal Tests -------" << "\n \n";
+
     int myLValueIntWithRValueLiteral = 5;
 
     int& myLValueIntWithRValueLiteralReference_01 = myLValueIntWithRValueLiteral;
@@ -99,6 +116,8 @@ void ShowLValueReferenceTests_Literals()
     //myAssumedAccessViolationLValueReference = 11;
     
     //std::cout << "myAssumedAccessViolationLValueReference: " << myAssumedAccessViolationLValueReference << "\n \n";
+
+    std::cout << "----- End Literal Tests -------" << "\n \n;
 }
 
 void ShowReferenceClassTests()
@@ -113,9 +132,15 @@ void ShowReferenceClassTests()
 
     derivedClass.ShowMessage();
 
+    std::cout << "Slicing: Following message should be from derived class: " << "\n";
     SlicingTest_NoReference(derivedClass);
 
+    std::cout << "Slicing: Following message should be from derived class: " << "\n";
     SlicingTest_Reference(derivedClass);
+
+    std::cout << "Poly: " << "\n";
+    ShowPolymorphismAtRunTime(baseClass);
+    ShowPolymorphismAtRunTime(derivedClass);
 
     std::cout << "------ Class Tests End ------" << "\n \n";
 }
