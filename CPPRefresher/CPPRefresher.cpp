@@ -11,6 +11,14 @@
 
 #include <iostream>
 
+/*
+*  - Todo -
+*  -
+*  - 1) Add a RemoveNode function to the LinkedList
+*  - 2) Add a FindNode function to the LinkedList
+*/
+
+
 struct LinkedList
 {
 public:
@@ -18,6 +26,16 @@ public:
     LinkedList(const std::string& string)
     {
         this->SetData(string);
+    }
+
+   inline bool operator==(const LinkedList& rhs)
+    {
+       if ((Data == rhs.Data) && (_internal_incrementor == rhs._internal_incrementor) && (GetNextNode() == rhs.GetNextNode()) && (GetRootNode() == rhs.GetRootNode()))
+       {
+           return true;
+       }
+
+       return false;
     }
 
     LinkedList* Next()
@@ -32,7 +50,6 @@ public:
         if (this->Ptr->GetNextNode() == nullptr)
         {
             return nullptr;
-            //Throw Exception!
         }
 
         this->Ptr = this->Ptr->GetNextNode();
@@ -40,16 +57,47 @@ public:
         return this->Ptr;
     }
 
-    LinkedList* Begin()
+    LinkedList* Previous()
     {
-        this->Ptr = this;
+        if (this->Ptr == nullptr)
+        {
+            this->Ptr = this->End();
+
+            return this->Ptr;
+        }
+
+        if (this->Ptr->GetPreviousNode() == nullptr)
+        {
+            return nullptr;
+        }
+
+        this->Ptr = this->Ptr->GetPreviousNode();
 
         return this->Ptr;
     }
 
     LinkedList* End()
     {
+        LinkedList* temp;
+
+        for (auto index = -1; index <= this->_internal_incrementor; index++)
+        {
+            if (this->Next() == nullptr)
+            {
+                temp = this->Ptr;
+
+                return temp;
+            }
+        }
+
         return nullptr;
+    }
+
+    LinkedList* Begin()
+    {
+        this->Ptr = this;
+
+        return this;
     }
 
     std::string& GetData()
@@ -62,9 +110,9 @@ public:
         return Data = "Invalid!";
     }
 
-    void SetData(std::string const& paramData)
+    LinkedList* GetPtr()
     {
-        Data = paramData;
+        return Ptr;
     }
 
     LinkedList* GetRootNode() const
@@ -80,6 +128,11 @@ public:
     LinkedList* GetPreviousNode() const
     {
         return _Previous;
+    }
+
+    void SetData(std::string const& paramData)
+    {
+        Data = paramData;
     }
 
     void SetRootNode(LinkedList* paramNode)
@@ -138,18 +191,16 @@ public:
         return;
     }
 
-    LinkedList* Ptr = nullptr;
 
 
 private:
+    LinkedList* Ptr = nullptr;
 
     LinkedList* root = nullptr;
-
     LinkedList* _Previous = nullptr;
     LinkedList* _Next = nullptr;
 
     LinkedList* Current = nullptr;
-
 
     int _internal_incrementor = 0;
 
@@ -298,7 +349,6 @@ void PassPtr(int* inPtr)
     std::cout << "PassPtr: inPtr = " << *inPtr << "\n \n";
 }
 
-
 int main()
 {
     std::cout << "Pointers, References, LValues and RValues refresher! \n\n";
@@ -327,8 +377,6 @@ int main()
     LinkedList Six("My Names Six!");
     LinkedList Seven("My Names Seven!");
 
-
-
     Root.AddNode(&One);
     Root.AddNode(&Two);
     Root.AddNode(&Three);
@@ -337,35 +385,36 @@ int main()
     Root.AddNode(&Six);
     Root.AddNode(&Seven);
 
-    LinkedList ptr = Root;
-
-    std::cout << "ptr->GetData(): " << Root.GetData() << "\n \n";
-
-    std::cout << "ptr++->GetData(): " << Root.Next()->GetData() << "\n \n";
-
-    std::cout << "ptr++++->GetData(): " << Root.Next()->GetData() << "\n \n";
-
-    std::cout << "Begin(): " << Root.Begin()->GetData() << "\n \n";
-
-    /*
-    *  - Linked List is currently in a dirty state, once
-    *  - proper Begin, End, internal_Begin and internal_End
-    *  - are implemented, I'll need to tidy up the struct more.
-    *
-    */
-
-    for (auto index = Root.Begin(); index != Root.End();)
+    //LinkedList Forward
+    for (auto index = Root.Begin(); index != nullptr; index = Root.Next())
     {
-        std::cout << index->GetData() << "\n \n";
-        index = Root.Next();
+        if (index != nullptr)
+        {
+            std::cout << index->GetData() << "\n \n";
+        }
     }
 
-    /*
-    *  - Todo -
-    *  - Add in proper Begin, End methods so they can be used in a for loop in reverse order.
-    *  - Begin() - Should Return the Starting LinkedList pointer. Pehaps move current contents of Begin to an _internal method.
-    *  - End()   - Should Return the End LinkedList, where Next() returns a nullptr. Move internals to an _internal method.
-    */
+    //LinkedList Reverse
+    for (auto index = Root.End(); index != nullptr; index = Root.Previous())
+    {
+        if (index != nullptr)
+        {
+            std::cout << index->GetData() << "\n \n";
+        }
+    }
+
+    //operator== overload for comparison of LinkedLists
+    LinkedList L1("Hello My Friend!");
+    LinkedList L2("Goodbye My Friend!");
+
+    if (L1 == L2 || L2 == L1)
+    {
+        std::cout << "L1 == L2 || L2 == L1" << "\n \n";
+    }
+    else
+    {
+        std::cout << "L1 != L2 || L2 != L1" << "\n \n";
+    }
 
     WaitConsole();
 }
