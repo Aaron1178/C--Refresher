@@ -18,7 +18,6 @@
 *  - 2) Add a FindNode function to the LinkedList
 */
 
-
 struct LinkedList
 {
 public:
@@ -190,8 +189,6 @@ public:
 
         return;
     }
-
-
 
 private:
     LinkedList* Ptr = nullptr;
