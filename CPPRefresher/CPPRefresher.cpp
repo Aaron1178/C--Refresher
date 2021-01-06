@@ -5,18 +5,9 @@
 * - DeReferenced Pointers
 * - LValues
 * - RValues
-*
-* - Excuse the variable names. Just helps me with refreshing. I would not use these in a real world application.
 */
 
 #include <iostream>
-
-/*
-*  - Todo -
-*  -
-*  - 1) Add a RemoveNode function to the LinkedList
-*  - 2) Add a FindNode function to the LinkedList
-*/
 
 struct LinkedList
 {
@@ -273,6 +264,19 @@ int& ReturnTemporaryIntLValueReference()
 }
 */
 
+void PassAddress(int* inPtr)
+{
+    std::cout << "PassAddress: De-Referenced inPtr = " << *inPtr << "\n \n";
+    std::cout << "PassAddress: Address of inPtr = " << &inPtr << "\n \n";
+
+}
+
+void PassPtr(int* inPtr)
+{
+    std::cout << "PassPtr: De-Referenced inPtr = " << *inPtr << "\n \n";
+    std::cout << "PassPtr: Address of inPtr = " << &inPtr << "\n \n";
+}
+
 void ShowPolymorphismAtRunTime(BaseClassExample& paramBaseClassExample)
 {
     paramBaseClassExample.ShowPolyMessage();
@@ -333,37 +337,11 @@ void ShowClassTests()
     ShowPolymorphismAtRunTime(baseClass);
     ShowPolymorphismAtRunTime(derivedClass);
 
-    std::cout << "------ Class Tests End ------" << "\n \n";
+    std::cout << "------ End Class Tests ------" << "\n \n";
 }
 
-void PassAddress(int* inPtr)
+void ShowLinkedListTests()
 {
-    std::cout << "PassAddress: inPtr = " << *inPtr << "\n \n";
-}
-
-void PassPtr(int* inPtr)
-{
-    std::cout << "PassPtr: inPtr = " << *inPtr << "\n \n";
-}
-
-int main()
-{
-    std::cout << "Pointers, References, LValues and RValues refresher! \n\n";
-    std::cout << "By Aaron Thompson \n \n";
-
-    ShowLValueReferenceTests_Literals();
-
-    ShowClassTests();
-
-    int myInt = 100;
-
-    int* pIntMemAddress = &myInt;
-
-    std::cout << "pIntMemAddress = " << *pIntMemAddress << "\n \n";
-
-    PassAddress(&myInt);
-    PassPtr(pIntMemAddress);
-
     LinkedList Root("My Names Root!");
 
     LinkedList One("My names One!");
@@ -382,6 +360,8 @@ int main()
     Root.AddNode(&Six);
     Root.AddNode(&Seven);
 
+    std::cout << "------ Linked List Forward Loop -------" << "\n \n";
+
     //LinkedList Forward
     for (auto index = Root.Begin(); index != nullptr; index = Root.Next())
     {
@@ -390,6 +370,10 @@ int main()
             std::cout << index->GetData() << "\n \n";
         }
     }
+
+    std::cout << "------ End Linked List Forward Loop -------" << "\n \n";
+
+    std::cout << "------ Linked List Reverse Loop -------" << "\n \n";
 
     //LinkedList Reverse
     for (auto index = Root.End(); index != nullptr; index = Root.Previous())
@@ -400,10 +384,15 @@ int main()
         }
     }
 
+    std::cout << "------ End Linked List Reverse Loop -------" << "\n \n";
+
     //operator== overload for comparison of LinkedLists
     LinkedList L1("Hello My Friend!");
     LinkedList L2("Goodbye My Friend!");
 
+    std::cout << "------ Test operator== overload -------" << "\n \n";
+
+    //test operator== overload
     if (L1 == L2 || L2 == L1)
     {
         std::cout << "L1 == L2 || L2 == L1" << "\n \n";
@@ -412,6 +401,38 @@ int main()
     {
         std::cout << "L1 != L2 || L2 != L1" << "\n \n";
     }
+
+    std::cout << "------ End Test operator== overload -------" << "\n \n";
+}
+
+void ShowPointerTest()
+{
+    std::cout << "------ Pointer Tests -------" << "\n \n";
+
+    int myInt = 100;
+
+    int* pIntPtr = &myInt;
+
+    std::cout << "De-Referrenced pIntPtr: " << *pIntPtr << "\n \n";
+
+    PassAddress(&myInt);
+    PassPtr(pIntPtr);
+
+    std::cout << "------ End Pointer Tests -------" << "\n \n";
+}
+
+int main()
+{
+    std::cout << "Pointers, References, LValues and RValues refresher! \n\n";
+    std::cout << "By Aaron Thompson \n \n";
+
+    ShowLValueReferenceTests_Literals();
+
+    ShowClassTests();
+
+    ShowPointerTest();
+
+    ShowLinkedListTests();
 
     WaitConsole();
 }
